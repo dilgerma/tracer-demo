@@ -25,7 +25,7 @@ public class TracerDemoApplication {
 
 	@Bean
 	public RestTemplate restTemplate() {
-		return restTemplateBuilder.build();
+		return restTemplateBuilder.setConnectTimeout(10000).setReadTimeout(10000).build();
 	}
 
 	@Bean

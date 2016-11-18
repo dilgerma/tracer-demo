@@ -47,8 +47,14 @@ public class RestController {
     }
 
     @RequestMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseInfo incoming(HttpServletRequest servletRequest) {
+    public ResponseInfo incoming(HttpServletRequest servletRequest) throws Exception {
         final ResponseInfo responseInfo = new ResponseInfo("responseInfo", port, servletRequest.getHeader("X-CORRELATION-ID"), request());
+        if(environment.getProperty("slowness") != null) {
+            double percent = Double.parseDouble(environment.getProperty("slowness"));
+            if (Math.random() < percent) {
+                Thread.sleep(2000);
+            }
+        }
         log.info("Request / Response: {}", responseInfo);
         return responseInfo;
     }
